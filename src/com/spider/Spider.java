@@ -8,6 +8,7 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
@@ -30,7 +31,8 @@ public class Spider {
 	public Spider() {
 		// TODO Auto-generated constructor stub
 	}
-	private String getSrc(String url){
+	
+	public String getSrc(String url){
 		
 		BufferedReader reader = null;
 		StringBuilder src = new StringBuilder();
@@ -64,39 +66,44 @@ public class Spider {
 		
 	}
 	
-	// 获取分类的链接
-	private List<String> selectTarget(String src,String patternStr){
-		List<String> result = new ArrayList<>();
+	// 获取目标内容
+	public LinkedList<String> selectTarget(String src,String patternStr){
+		LinkedList<String> result = new LinkedList<>();
 		Pattern pattern = Pattern.compile(patternStr);
 		Matcher matcher = pattern.matcher(src);
 
 		while(matcher.find()){
+			/*
 			System.out.print(matcher.group(0));
 			for(int i=1;i<=matcher.groupCount();i++){
 				System.out.print(" : " + matcher.group(i));
 			}
 			System.out.println();
+			*/
 			result.add(matcher.group(1));
 		}
 		return result;
 	}
 	
 	// 获取该分类下的词条的链接
-	private Map<String,List<String>> selectEntryURL(List<String> listURLs){
-		Map<String,List<String>> entryURLMap = new HashMap<>();
+	public List<String> selectEntryURL(List<String> listURLs){
+		List<String> EntryURLs = new ArrayList<>();
+		int count = 0;
 		for(String listURL : listURLs){
 			// http://fenlei.baike.com/%E8%BF%90%E5%8A%A8%E4%BC%9A/list
 			String src = this.getSrc("http://fenlei.baike.com/" + listURL + "list");
 			String regex = "<a[^>]+?href=\"http://www.baike.com/wiki/(?<subhref>[^\"]+)\"[^>?]*>(?<name>[^<]+)</a>";
 			List<String> entryURLs = this.selectTarget(src, regex);
-
-			entryURLMap.put(listURL, entryURLs);
+			count += entryURLs.size();
+			EntryURLs.addAll(entryURLs);
+			System.out.println(count);
 		}
-		return entryURLMap;
+		System.out.println(count);
+		return EntryURLs;
 	}
 	
 	// 获取词条具体内容
-	private Entry getEntryContent(String url){
+	public Entry getEntryContent(String url){
 		url = "奥格";
 		String src = this.getSrc("http://www.baike.com/wiki/"+url);
 		
@@ -121,41 +128,48 @@ public class Spider {
 		List<String> imageURL = this.selectTarget(src, imageRegex);
 		
 		Entry entry = new Entry();
-		entry.setName(name.get(0));
+		/*
+		entry.setEntryname(name.get(0));
 		entry.setLabel(labels);
 		String content = summary.size()>0?summary.get(0):"暂无内容";
 		String imageSrc = imageURL.size()>0?imageURL.get(0):null;
 		entry.setContent(content);
 		entry.setImageSrc(imageSrc);
+		*/
 		return entry;
+		
 		//System.out.println(src);
 	}
 	
 	
 	public static void main(String[] args){
 		Spider spider = new Spider();
-
+		long start = System.currentTimeMillis();
 			
 		// 1.从入口获得分类(只获取特定分类,所以需要排除一些<a>)
 		String src = spider.getSrc("http://www.baike.com/fenlei/");//\<a.*href=.*\>.*\</a\>
 		List<String> listURLs =  spider.selectTarget(src, "<a[^>class]+?href=\"http://fenlei.baike.com/(?<subhref>[^\"prd]+)\"[^>?]*>(?<name>[^<]+)</a>");
-		
+		System.out.println(listURLs.size());
 		/*for(String item : result.keySet()){
 			System.out.println(item + " : " + result.get(item));
-		}*/
+		}
 		System.out.println("==================================");
+		*/
 		// 2.获取分类下的词条列表
 		List<String> list1 = new ArrayList<>();
-		list1.add(listURLs.get(0));
-		Map<String,List<String>> entryURLMap = spider.selectEntryURL(list1);
+		//list1.add(listURLs.get(0));
+		List<String> entryURLs = spider.selectEntryURL(listURLs);
 		
-		
-		System.out.println("================");
+		long end = System.currentTimeMillis();
+		System.out.println("time : " + (end - start) + " ms");
+		System.out.println(entryURLs.size());
+		/*
 		// 3.获取具体词条
 		String url = entryURLMap.get(list1.get(0)).get(0);
 		Entry e = spider.getEntryContent(url);
 		
 		System.out.println(e.toString());
+		*/
 		
 	}
 

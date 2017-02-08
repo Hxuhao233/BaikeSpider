@@ -1,44 +1,53 @@
 package com.spider.model;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-
 public class Entry {
-	private String name;
-	private List<String> label;
-	private String content;
-	private String imageSrc;
-	public String getName() {
-		return name;
-	}
-	public void setName(String name) {
-		this.name = name;
-	}
-	public List<String> getLabel() {
-		return label;
-	}
-	public void setLabel(List<String> label) {
-		this.label = label;
-	}
-	public String getContent() {
-		return content;
-	}
-	public void setContent(String content) {
-		this.content = content;
-	}
-	public String getImageSrc() {
-		return imageSrc;
-	}
-	public void setImageSrc(String imageSrc) {
-		this.imageSrc = imageSrc;
-	}
-	
-	public String toString(){
-		return "name : " + this.name + "\n"
-						+ "label : " + Arrays.toString(this.label.toArray()) + "\n"
-						+ "content : " + this.content + "\n"
-						+ "imageSrc : " + this.imageSrc + "\n";
-	}
-	
+    private Integer id;
+
+    private String entryname;
+
+    private String publisher;
+
+    private String content;
+
+    private String pictureaddr;
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getEntryname() {
+        return entryname;
+    }
+
+    public void setEntryname(String entryname) {
+        this.entryname = entryname == null ? null : entryname.trim();
+    }
+
+    public String getPublisher() {
+        return publisher;
+    }
+
+    public void setPublisher(String publisher) {
+        this.publisher = publisher == null ? null : publisher.trim();
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content == null ? null : content.trim();
+    }
+
+    public String getPictureaddr() {
+        return pictureaddr;
+    }
+
+    public void setPictureaddr(String pictureaddr) {
+        this.pictureaddr = pictureaddr == null ? null : pictureaddr.trim();
+    }
 }
