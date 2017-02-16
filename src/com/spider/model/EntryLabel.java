@@ -1,6 +1,6 @@
 package com.spider.model;
 
-public class Entry_Label {
+public class EntryLabel {
     private Integer id;
 
     private Integer entryId;

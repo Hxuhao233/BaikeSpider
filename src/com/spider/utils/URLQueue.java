@@ -22,22 +22,22 @@ import com.spider.model.Entry;
  */
 public class URLQueue {
 	// 考虑多线程
-	private BlockingQueue<String> unvisitedURL;
+	private Queue<String> unvisitedURL;
 	private Set visitedURL = new HashSet();
 	
-	public URLQueue(BlockingQueue<String> urls){
+	public URLQueue(Queue<String> urls){
 		this.unvisitedURL = urls;
 	}
 	
 	public void addUnvisitedURL(String url){
-		if(url!=null && !url.trim().equals("") /*&& !visitedURL.contains(url)*/){
+		if(url!=null && !url.trim().equals("") && !visitedURL.contains(url)){
 			unvisitedURL.add(url);
 		}
 	}
 	public String getUnvisitedURL(){
 	
 		try {
-			String url = unvisitedURL.take();
+			String url = unvisitedURL.poll();
 			return url;
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -62,13 +62,7 @@ public class URLQueue {
 	}
 	public static void main(String[] args){
 		ApplicationContext ac1 = new ClassPathXmlApplicationContext(new String[] {"spring-mybatis.xml"});
-		Entry e = new Entry();
-		e.setContent("测试词条");
-		e.setEntryname("测试词条");
-		e.setPublisher("测试用户");
-		EntryMapper mapper = (EntryMapper) ac1.getBean("entryMapper");
-		mapper.insertSelective(e);
-		
+
 	}
 	
 	

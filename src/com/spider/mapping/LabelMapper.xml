@@ -22,8 +22,8 @@
     insert into Label (id, labelName)
     values (#{id,jdbcType=INTEGER}, #{labelname,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.spider.model.Label">
-    insert into Label
+  <insert id="insertSelective" parameterType="com.spider.model.Label"  useGeneratedKeys="true" keyProperty="id">
+    insert ignore into Label
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
         id,
@@ -41,6 +41,24 @@
       </if>
     </trim>
   </insert>
+   <insert id ="insertBatch" parameterType="java.util.List" useGeneratedKeys="true"  >
+	    insert  ignore into Label
+	    (labelName)
+	    values
+	     <foreach collection ="list" item="labelItem" index= "index" separator =",">
+	         (
+			#{labelItem.labelname,jdbcType=VARCHAR}
+	         )
+	      </foreach >
+ 	</insert>
+ 	<select id="selectIdBatch" parameterType="java.util.List" resultType="java.lang.Integer">
+ 		select id 
+ 		from Label
+ 		where labelName in
+ 		 <foreach collection="list" index="index" item="item" open="(" separator="," close=")">    
+       		 #{item,jdbcType=VARCHAR}    
+   		 </foreach>  
+ 	</select>
   <update id="updateByPrimaryKeySelective" parameterType="com.spider.model.Label">
     update Label
     <set>

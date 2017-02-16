@@ -5,6 +5,7 @@ import java.io.IOException;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.type.ReferenceType;
 
@@ -32,12 +33,15 @@ public class JsonUtils {
 		return null;
 	}
 	
-	public static <T> T decode(String jsonContent,Class<T> valueType){
-		try {
-			return objectMapper.readValue(jsonContent, valueType);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+	public static <T> T decode(String jsonContent,Class<T> valueType) {
+		if(jsonContent != null){
+			try {
+				return objectMapper.readValue(jsonContent, valueType);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				
+			}
 		}
 		return null;
 	}

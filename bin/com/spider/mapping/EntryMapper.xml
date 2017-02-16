@@ -27,8 +27,8 @@
     values (#{id,jdbcType=INTEGER}, #{entryname,jdbcType=VARCHAR}, #{publisher,jdbcType=VARCHAR}, 
       #{content,jdbcType=VARCHAR}, #{pictureaddr,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.spider.model.Entry">
-    insert into Entry
+  <insert id="insertSelective" parameterType="com.spider.model.Entry" useGeneratedKeys="true" keyProperty="id">
+    insert ignore into Entry
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
         id,
@@ -90,4 +90,18 @@
       pictureAddr = #{pictureaddr,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
+	<insert id ="insertBatch" parameterType="java.util.List" useGeneratedKeys="true"  >
+	    insert  into Entry
+	    (entryName,publisher,content,pictureAddr)
+	    values
+	     <foreach collection ="list" item="entryItem" index= "index" separator =",">
+	         (
+			#{entryItem.entryname,jdbcType=VARCHAR},
+			#{entryItem.publisher,jdbcType=VARCHAR},
+			#{entryItem.content,jdbcType=VARCHAR},
+			#{entryItem.pictureAddr,jdbcType=VARCHAR}
+	         )
+	      </foreach >
+ 	</insert>
+
 </mapper>

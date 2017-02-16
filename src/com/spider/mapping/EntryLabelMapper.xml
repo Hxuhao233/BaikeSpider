@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.spider.dao.Entry_LabelMapper">
-  <resultMap id="BaseResultMap" type="com.spider.model.Entry_Label">
+<mapper namespace="com.spider.dao.EntryLabelMapper">
+  <resultMap id="BaseResultMap" type="com.spider.model.EntryLabel">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="entry_id" jdbcType="INTEGER" property="entryId" />
     <result column="label_id" jdbcType="INTEGER" property="labelId" />
@@ -12,21 +12,21 @@
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from Entry_Label
+    from EntryLabel
     where id = #{id,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from Entry_Label
+    delete from EntryLabel
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.spider.model.Entry_Label">
-    insert into Entry_Label (id, entry_id, label_id
+  <insert id="insert" parameterType="com.spider.model.EntryLabel">
+    insert into EntryLabel (id, entry_id, label_id
       )
     values (#{id,jdbcType=INTEGER}, #{entryId,jdbcType=INTEGER}, #{labelId,jdbcType=INTEGER}
       )
   </insert>
-  <insert id="insertSelective" parameterType="com.spider.model.Entry_Label">
-    insert into Entry_Label
+  <insert id="insertSelective" parameterType="com.spider.model.EntryLabel" useGeneratedKeys="true" keyProperty="id">
+    insert ignore into EntryLabel
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
         id,
@@ -50,8 +50,19 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.spider.model.Entry_Label">
-    update Entry_Label
+ <insert id ="insertBatch" parameterType="java.util.List" useGeneratedKeys="true"  >
+    insert ignore into EntryLabel
+    (entry_id,label_id)
+    values
+     <foreach collection ="list" item="elItem" index= "index" separator =",">
+         (
+            #{elItem.entryId,jdbcType=INTEGER},
+            #{elItem.labelId,jdbcType=INTEGER}
+         )
+     </foreach >
+     </insert >
+  <update id="updateByPrimaryKeySelective" parameterType="com.spider.model.EntryLabel">
+    update EntryLabel
     <set>
       <if test="entryId != null">
         entry_id = #{entryId,jdbcType=INTEGER},
@@ -62,8 +73,8 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.spider.model.Entry_Label">
-    update Entry_Label
+  <update id="updateByPrimaryKey" parameterType="com.spider.model.EntryLabel">
+    update EntryLabel
     set entry_id = #{entryId,jdbcType=INTEGER},
       label_id = #{labelId,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}

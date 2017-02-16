@@ -10,6 +10,33 @@
   <sql id="Base_Column_List">
     id, url_md5, url, status
   </sql>
+  <select id="selectOne" resultMap="BaseResultMap">
+  	select id, url
+  	from URLQueue
+  	where status = 0
+  	order by id limit 1
+  </select>
+    <select id="selectBatch" resultMap="BaseResultMap">
+  	select *
+  	from URLQueue
+  	where status = 0
+  	order by id 
+  	limit 0,100
+  </select>
+  <update id="updateBatch" parameterType="java.util.List">    
+    update   URLQueue 
+    set status = 1    
+    where id in     
+    <foreach collection="list" index="index" item="item" open="(" separator="," close=")">    
+        #{item.id,jdbcType=INTEGER}    
+    </foreach>  
+</update>  
+  <update id="updateStatus" parameterType="java.lang.Integer">
+  	update
+  	URLQueue
+  	set status = 1
+  	where id = #{id,jdbcType=INTEGER}
+  </update>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
@@ -32,10 +59,8 @@
       <if test="id != null">
         id,
       </if>
-      <if test="urlMd5 != null">
-        url_md5,
-      </if>
       <if test="url != null">
+        url_md5,
         url,
       </if>
       <if test="status != null">
@@ -46,10 +71,9 @@
       <if test="id != null">
         #{id,jdbcType=INTEGER},
       </if>
-      <if test="urlMd5 != null">
-        #{urlMd5,jdbcType=CHAR},
-      </if>
+      
       <if test="url != null">
+        md5(#{url,jdbcType=VARCHAR}),
         #{url,jdbcType=VARCHAR},
       </if>
       <if test="status != null">
@@ -57,6 +81,18 @@
       </if>
     </trim>
   </insert>
+  <insert id ="insertURLBatch" parameterType="java.util.List" useGeneratedKeys="true"  >
+     insert ignore into URLQueue
+     (url_md5,url,status)
+     values
+      <foreach collection ="list" item="urlItem" index= "index" separator =",">
+          (
+          md5(#{urlItem.url,jdbcType=CHAR}),
+          #{urlItem.url,jdbcType=VARCHAR},
+		0
+          )
+       </foreach >
+     </insert >
   <update id="updateByPrimaryKeySelective" parameterType="com.spider.model.URLQueue">
     update URLQueue
     <set>

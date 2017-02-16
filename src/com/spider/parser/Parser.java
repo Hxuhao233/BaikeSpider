@@ -12,39 +12,42 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Parser {
+	// 获取网页源代码
 	protected String getSrc(String url){
 			
-			BufferedReader reader = null;
-			StringBuilder src = new StringBuilder();
-			
-			try {
-				URL realUrl = new URL(url);
-				URLConnection connection = realUrl.openConnection();
-				reader = new BufferedReader(new InputStreamReader(connection.getInputStream(), "utf-8"));
-	
-				String line = "";
-				while( (line = reader.readLine())!=null ){
-					src.append(line);
+		BufferedReader reader = null;
+		StringBuilder src = new StringBuilder();
+		
+		try {
+			URL realUrl = new URL(url);
+			URLConnection connection = realUrl.openConnection();
+			reader = new BufferedReader(new InputStreamReader(connection.getInputStream(), "utf-8"));
+
+			String line = "";
+			while( (line = reader.readLine())!=null ){
+				src.append(line);
+			}
+
+		} catch (MalformedURLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return "";
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return "";
+		}finally {
+			if(reader!=null)
+				try {
+					reader.close();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
 				}
-	
-			} catch (MalformedURLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}finally {
-				if(reader!=null)
-					try {
-						reader.close();
-					} catch (IOException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-			}			
-			return src.toString();
-			
-		}
+		}			
+		return src.toString();
+		
+	}
 	
 	// 获取目标内容
 	protected List<String> selectTarget(String src,String patternStr){

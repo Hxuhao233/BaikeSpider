@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.spider.dao.EntryListURLQueueMapper">
+  <resultMap id="BaseResultMap" type="com.spider.model.EntryListURLQueue">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="list_url" jdbcType="VARCHAR" property="listUrl" />
+    <result column="list_url_md5" jdbcType="CHAR" property="listUrlMd5" />
+    <result column="status" jdbcType="TINYINT" property="status" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, list_url, list_url_md5, status
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from EntryListURLQueue
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from EntryListURLQueue
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.spider.model.EntryListURLQueue">
+    insert into EntryListURLQueue (id, list_url, list_url_md5
+      )
+    values (#{id,jdbcType=INTEGER}, #{listUrl,jdbcType=VARCHAR},md5(#{listUrl,jdbcType=VARCHAR})
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.spider.model.EntryListURLQueue">
+    insert ignore into EntryListURLQueue
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="listUrl != null">
+        list_url,
+        list_url_md5,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="listUrl != null">
+        #{listUrl,jdbcType=VARCHAR},
+        md5(#{listUrl,jdbcType=VARCHAR}),
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=TINYINT},
+      </if>
+    </trim>
+  </insert>
+  <select id="selectBatch" resultMap="BaseResultMap">
+  	select *
+  	from EntryListURLQueue
+  	where status = 0
+  	order by id limit 0,100
+  </select>
+   <update id="updateBatch" parameterType="java.util.List"  flushCache="true">    
+    update EntryListURLQueue 
+    set status = 1    
+    where id in     
+    <foreach collection="list" index="index" item="item" open="(" separator="," close=")">    
+        #{item.id,jdbcType=INTEGER}    
+    </foreach>  
+</update>  
+  <update id="updateStatus" parameterType="java.lang.Integer">
+  	update
+  	EntryListURLQueue
+  	set status = 1
+  	where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectOne" resultMap="BaseResultMap">
+  	select id, list_url
+  	from EntryListURLQueue
+  	where status = 0
+  	order by id limit 1
+  </select>
+  <insert id ="insertURLBatch" parameterType="java.util.List" useGeneratedKeys="true"  >
+    insert ignore into EntryListURLQueue
+    (list_url_md5,list_url,status)
+    values
+     <foreach collection ="list" item="urlItem" index= "index" separator =",">
+         (
+         md5(#{urlItem.listUrl,jdbcType=CHAR}),
+         #{urlItem.listUrl,jdbcType=VARCHAR},
+		0
+         )
+     </foreach >
+     </insert >
+  <update id="updateByPrimaryKeySelective" parameterType="com.spider.model.EntryListURLQueue">
+    update EntryListURLQueue
+    <set>
+      <if test="listUrl != null">
+        list_url = #{listUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="listUrlMd5 != null">
+        list_url_md5 = #{listUrlMd5,jdbcType=CHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.spider.model.EntryListURLQueue">
+    update EntryListURLQueue
+    set list_url = #{listUrl,jdbcType=VARCHAR},
+      list_url_md5 = #{listUrlMd5,jdbcType=CHAR},
+      status = #{status,jdbcType=TINYINT}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

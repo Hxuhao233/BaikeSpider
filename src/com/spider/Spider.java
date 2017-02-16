@@ -73,6 +73,7 @@ public class Spider {
 		Matcher matcher = pattern.matcher(src);
 
 		while(matcher.find()){
+			
 			/*
 			System.out.print(matcher.group(0));
 			for(int i=1;i<=matcher.groupCount();i++){
@@ -96,7 +97,8 @@ public class Spider {
 			List<String> entryURLs = this.selectTarget(src, regex);
 			count += entryURLs.size();
 			EntryURLs.addAll(entryURLs);
-			System.out.println(count);
+			System.out.println("add : " + entryURLs.size());
+			System.out.println("total : " +count);
 		}
 		System.out.println(count);
 		return EntryURLs;
@@ -144,17 +146,21 @@ public class Spider {
 	
 	public static void main(String[] args){
 		Spider spider = new Spider();
+		System.out.println(spider.getSrc("http://www.baike.com/category/Ajax_cate.jsp?catename="+"动物"));
+		/*
 		long start = System.currentTimeMillis();
-			
+
 		// 1.从入口获得分类(只获取特定分类,所以需要排除一些<a>)
 		String src = spider.getSrc("http://www.baike.com/fenlei/");//\<a.*href=.*\>.*\</a\>
 		List<String> listURLs =  spider.selectTarget(src, "<a[^>class]+?href=\"http://fenlei.baike.com/(?<subhref>[^\"prd]+)\"[^>?]*>(?<name>[^<]+)</a>");
 		System.out.println(listURLs.size());
+		*/
 		/*for(String item : result.keySet()){
 			System.out.println(item + " : " + result.get(item));
 		}
 		System.out.println("==================================");
 		*/
+		/*	
 		// 2.获取分类下的词条列表
 		List<String> list1 = new ArrayList<>();
 		//list1.add(listURLs.get(0));
@@ -163,6 +169,7 @@ public class Spider {
 		long end = System.currentTimeMillis();
 		System.out.println("time : " + (end - start) + " ms");
 		System.out.println(entryURLs.size());
+		*/
 		/*
 		// 3.获取具体词条
 		String url = entryURLMap.get(list1.get(0)).get(0);

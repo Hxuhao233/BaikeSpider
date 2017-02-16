@@ -4,6 +4,9 @@ package com.spider.model;
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.List;
+
+import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils.Collections;
 
 import javafx.scene.input.DataFormat;
 
@@ -17,10 +20,7 @@ import javafx.scene.input.DataFormat;
 public class EntryInfo implements Serializable{
 	private String entryName;
 	private String entryContent;
-	private String label1;
-	private String label2;
-	private String label3;
-	private String label4;
+	private List<String> labels;
 	private String createName;
 	private String pictureAddr;
 	private String eid;
@@ -64,46 +64,17 @@ public class EntryInfo implements Serializable{
 	}
 
 
-	public String getLabel1() {
-		return label1;
+
+
+
+	public List<String> getLabels() {
+		return labels;
 	}
 
 
-	public void setLabel1(String label1) {
-		this.label1 = label1;
+	public void setLabels(List<String> labels) {
+		this.labels = labels;
 	}
-
-
-	public String getLabel2() {
-		return label2;
-	}
-
-
-	public void setLabel2(String label2) {
-		this.label2 = label2;
-	}
-
-
-	public String getLabel3() {
-		return label3;
-	}
-
-
-	public void setLabel3(String label3) {
-		this.label3 = label3;
-	}
-
-
-	public String getLabel4() {
-		return label4;
-	}
-
-
-	public void setLabel4(String label4) {
-		this.label4 = label4;
-	}
-
-
 
 
 	public String getCreateName() {
@@ -157,7 +128,7 @@ public class EntryInfo implements Serializable{
 	
 	public String toString(){
 		return "name : " + this.entryName + "\n"
-						+ "label : " + this.label1 + "\n"
+						+ "label : " + Arrays.toString(this.labels.toArray()) + "\n"
 						+ "content : " + this.entryContent + "\n"
 						+ "imageSrc : " + this.pictureAddr + "\n";
 	}
