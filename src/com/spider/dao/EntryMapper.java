@@ -1,6 +1,7 @@
 package com.spider.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import com.spider.model.Entry;
 
@@ -18,7 +19,11 @@ public interface EntryMapper {
 
     int updateByPrimaryKey(Entry record);
     */
+
     int insertSelective(Entry record);
 	
 	int insertBatch(List<Entry> entrys);
+
+
+	List<Entry> selectByName(Map<String, Object> param);
 }

@@ -2,13 +2,8 @@ package com.spider.model;
 
 
 import java.io.Serializable;
-import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.List;
-
-import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils.Collections;
-
-import javafx.scene.input.DataFormat;
 
 
 /**
@@ -17,7 +12,7 @@ import javafx.scene.input.DataFormat;
  * @author hxuhao
  *
  */
-public class EntryInfo implements Serializable{
+public class MyEntryInfo implements Serializable{
 	private String entryName;
 	private String entryContent;
 	private List<String> labels;
@@ -39,7 +34,7 @@ public class EntryInfo implements Serializable{
 	}
 
 
-	public EntryInfo() {
+	public MyEntryInfo() {
 		super();
 	}
 

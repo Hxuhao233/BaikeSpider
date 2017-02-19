@@ -68,6 +68,14 @@
         <constructor-arg index="0" ref="sqlSessionFactory"></constructor-arg>  
     </bean>  
 	
-
+	<!-- RMI -->
+	<bean id="serviceExporter" class="org.springframework.remoting.rmi.RmiServiceExporter">  
+        <property name="serviceName" value="MobileSearchService" />  
+        <property name="service" ref="searchServiceImpl" />  
+        <property name="serviceInterface"  
+            value="com.spider.service.ISearchService" />  
+        <property name="registryPort" value="18080" />  
+        <property name="servicePort" value="18088" />  
+    </bean>  
 	
 </beans>

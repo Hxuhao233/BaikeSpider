@@ -1,6 +1,8 @@
 package com.spider.dao.impl;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -28,6 +30,12 @@ public class EntryMapperImpl implements EntryMapper{
 	public int insertSelective(Entry record) {
 		// TODO Auto-generated method stub
 		return sqlSession.insert("com.spider.dao.EntryMapper.insertSelective",record);
+	}
+
+	@Override
+	public List<Entry> selectByName(Map<String,Object> param) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectList("com.spider.dao.EntryMapper.selectByName",param);
 	}
 
 }

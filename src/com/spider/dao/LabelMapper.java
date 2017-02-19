@@ -13,9 +13,10 @@ public interface LabelMapper {
     int insertSelective(Label record);
     int insertBatch(List<Label> labels);
     List<Integer>selectIdBatch(List<String> labelnames);
-/*
-    Label selectByPrimaryKey(Integer id);
 
+
+    Label selectByPrimaryKey(Integer id);
+/*
     int updateByPrimaryKeySelective(Label record);
 
     int updateByPrimaryKey(Label record);

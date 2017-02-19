@@ -22,7 +22,7 @@ import com.spider.dao.EntryMapper;
 import com.spider.dao.LabelMapper;
 import com.spider.dao.URLQueueMapper;
 import com.spider.model.Entry;
-import com.spider.model.EntryInfo;
+import com.spider.model.MyEntryInfo;
 import com.spider.model.EntryLabel;
 import com.spider.model.EntryListURLQueue;
 import com.spider.model.Label;
@@ -98,6 +98,7 @@ public class SpiderMain {
 				for(URLQueue url : q){
 					try {
 						queue.put(url);
+						System.out.println("get : " + url.getId());
 						count ++;
 					} catch (InterruptedException e) {
 						// TODO Auto-generated catch block
@@ -115,13 +116,13 @@ public class SpiderMain {
 	@Component
 	public static class EntrySaver implements Runnable{
 		
-		private BlockingQueue<EntryInfo> entryQueue;
+		private BlockingQueue<MyEntryInfo> entryQueue;
 		
-		public BlockingQueue<EntryInfo> getEntryQueue() {
+		public BlockingQueue<MyEntryInfo> getEntryQueue() {
 			return entryQueue;
 		}
 	
-		public void setEntryQueue(BlockingQueue<EntryInfo> entryQueue) {
+		public void setEntryQueue(BlockingQueue<MyEntryInfo> entryQueue) {
 			this.entryQueue = entryQueue;
 		}
 		
@@ -136,10 +137,10 @@ public class SpiderMain {
 		private EntryLabelMapper entryLabelMapper;
 		
 		public void run() {
-			EntryInfo entryInfo = null;
+			MyEntryInfo entryInfo = null;
 			while(true){
 				try {
-					entryInfo = (EntryInfo) entryQueue.poll(5, TimeUnit.MINUTES);
+					entryInfo = (MyEntryInfo) entryQueue.poll(5, TimeUnit.MINUTES);
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -221,7 +222,7 @@ public class SpiderMain {
 		
 */
         BlockingQueue<Object> q = new ArrayBlockingQueue<>(800, true);
-        BlockingQueue<EntryInfo> eQueue = new ArrayBlockingQueue<EntryInfo>(800,true);
+        BlockingQueue<MyEntryInfo> eQueue = new ArrayBlockingQueue<MyEntryInfo>(800,true);
         
         
 		//获取词条URL线程

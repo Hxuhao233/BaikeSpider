@@ -73,7 +73,8 @@ public class URLQueueMapperImpl implements URLQueueMapper{
 	public List<URLQueue> selectBatch() {
 		// TODO Auto-generated method stub
 		List<URLQueue> queue = sqlSession.selectList("com.spider.dao.URLQueueMapper.selectBatch");
-		sqlSession.update("com.spider.dao.URLQueueMapper.updateBatch", queue);
+		if(queue.size()>0)
+			sqlSession.update("com.spider.dao.URLQueueMapper.updateBatch", queue);
 		return queue;
 	}
 	

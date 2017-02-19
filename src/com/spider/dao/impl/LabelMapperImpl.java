@@ -35,6 +35,13 @@ public class LabelMapperImpl implements LabelMapper{
 		// TODO Auto-generated method stub
 		return sqlSession.selectList("com.spider.dao.LabelMapper.selectIdBatch",labelnames);
 	}
+
+
+	@Override
+	public Label selectByPrimaryKey(Integer id) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("com.spider.dao.LabelMapper.selectByPrimaryKey",id);
+	}
 	
 	
 }

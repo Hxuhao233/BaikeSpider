@@ -1,6 +1,8 @@
 package com.spider.dao.impl;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -29,5 +31,11 @@ public class EntryLabelMapperImpl implements EntryLabelMapper{
 	public int insertBatch(List<EntryLabel> record) {
 		// TODO Auto-generated method stub
 		return sqlSession.insert("com.spider.dao.EntryLabelMapper.insertBatch",record);
+	}
+
+	@Override
+	public List<Integer> selectLabelIdByEntryId(Integer eid) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectList("com.spider.dao.EntryLabelMapper.selectLabelIdByEntryId",eid);
 	}
 }

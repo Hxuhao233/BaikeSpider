@@ -15,6 +15,12 @@
     from EntryLabel
     where id = #{id,jdbcType=INTEGER}
   </select>
+  <select id="selectLabelIdByEntryId" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+  select 
+  label_id
+  from EntryLabel
+  where entry_id = #{eid,jdbcType=INTEGER}
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from EntryLabel
     where id = #{id,jdbcType=INTEGER}

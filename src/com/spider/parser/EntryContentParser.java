@@ -19,7 +19,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Component;
 
 import com.spider.client.HttpConnectionManager;
-import com.spider.model.EntryInfo;
+import com.spider.model.MyEntryInfo;
 import com.spider.model.URLQueue;
 
 
@@ -35,7 +35,7 @@ public class EntryContentParser extends Parser implements Runnable{
 	
 	private BlockingQueue urlQueue;
 	
-	private BlockingQueue<EntryInfo> entryQueue;
+	private BlockingQueue<MyEntryInfo> entryQueue;
 	
 	@Resource(name="httpConnectionManager")
 	HttpConnectionManager connectionManager;
@@ -48,11 +48,11 @@ public class EntryContentParser extends Parser implements Runnable{
 		this.urlQueue = url;
 	}
 	
-	public BlockingQueue<EntryInfo> getEntryQueue() {
+	public BlockingQueue<MyEntryInfo> getEntryQueue() {
 		return entryQueue;
 	}
 
-	public void setEntryQueue(BlockingQueue<EntryInfo> entryQueue) {
+	public void setEntryQueue(BlockingQueue<MyEntryInfo> entryQueue) {
 		this.entryQueue = entryQueue;
 	}
 
@@ -78,7 +78,7 @@ public class EntryContentParser extends Parser implements Runnable{
 	}
 	
 	// 获取词条具体内容
-	public EntryInfo getEntryContent(String url){
+	public MyEntryInfo getEntryContent(String url){
 		if(url==null || url.trim().equals(""))
 			return null;
     	url =  url.replaceAll("&", "%26");
@@ -116,7 +116,7 @@ public class EntryContentParser extends Parser implements Runnable{
 		//String label1 = labels.size()>0?labels.get(0):"未知标签";
 		
 
-		EntryInfo entry = new EntryInfo();
+		MyEntryInfo entry = new MyEntryInfo();
 		entry.setEntryName(name);
 		entry.setEntryContent(content);
 		entry.setPictureAddr(imageSrc);
@@ -153,12 +153,12 @@ public class EntryContentParser extends Parser implements Runnable{
 			url = url.replaceAll("&", "%26");
 			url = url.replaceAll(" ", "%20");
 
-			EntryInfo entryInfo = getEntryContent(url);
+			MyEntryInfo entryInfo = getEntryContent(url);
 			if(entryInfo==null){
 				logger.error("get id : "+ q.getId() + " url: " + url + "failed");
 				continue;
 			}
-			System.out.println(Thread.currentThread().getId() + "get id : "+ q.getId());
+		//	System.out.println(Thread.currentThread().getId() + "get id : "+ q.getId());
 			try {
 				entryQueue.put(entryInfo);
 			} catch (InterruptedException e) {

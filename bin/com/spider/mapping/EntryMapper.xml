@@ -17,6 +17,13 @@
     from Entry
     where id = #{id,jdbcType=INTEGER}
   </select>
+  <select id="selectByName" parameterType="java.util.HashMap" resultMap="BaseResultMap">
+  	select
+  	<include refid="Base_Column_List" />
+  	from Entry
+  	where entryName  REGEXP #{key,jdbcType=VARCHAR}
+  	limit ${page} ,2
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from Entry
     where id = #{id,jdbcType=INTEGER}
